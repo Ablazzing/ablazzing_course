@@ -6,29 +6,31 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class CsvWorkerUtil {
-    private static final String FILE_PATH = "C:\\Users\\King Kazma\\IdeaProjects\\Java_project\\src\\main\\resources\\food.csv";
+	 private static final String FILEPATH = "C:\\Users\\kia\\IdeaProjects\\JavaProjectTutor\\src\\main\\resources\\food.csv";
 
-    public static void main(String[] args) throws Exception {
-        writeCsvFile(FILE_PATH, true, Arrays.asList("3,Lemon"));
-        getTextFromCsvFile(FILE_PATH, true).stream()
-                .forEach(System.out::println);
-    }
+	 public static void main (String[] args) throws Exception {
+			writeCsvFile (FILEPATH, true, Arrays.asList ("3,tomato"));
 
-    public static void writeCsvFile(String path, boolean isAppend, List<String> data) throws IOException {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(path, isAppend))) {
-            for (String line : data) {
-                bw.newLine();
-                bw.write(line);
-            }
-        }
-    }
+			getTextFromCsvFile (FILEPATH, true)
+							.forEach (System.out::println);
+	 }
 
-    public static List<String> getTextFromCsvFile(String path, boolean isSkipFirstRow) throws IOException, IllegalFileExtensionException {
-        if (!path.endsWith(".csv")) {
-            throw new IllegalFileExtensionException("Неправильное расширение файла. Ожидается csv");
-        }
-        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
-            return br.lines().skip(isSkipFirstRow ? 1 : 0).collect(Collectors.toList());
-        }
-    }
+	 public static void writeCsvFile (String path, boolean isAppend, List<String> data) throws IOException {
+			try (BufferedWriter bw = new BufferedWriter (new FileWriter (path, isAppend))) {
+				 for (String s : data) {
+						bw.newLine ();
+						bw.write (s);
+				 }
+			}
+	 }
+
+	 public static List<String> getTextFromCsvFile (String file, boolean isSkipFirstRow) throws IOException, IllegalFileExtensionException {
+			if (!file.endsWith (".csv")) {
+				 throw new IllegalFileExtensionException ("Неправльное расширение файла. Ожидается CSV");
+			}
+			try (BufferedReader reader = new BufferedReader (new FileReader (file))) {
+				 return reader.lines ().skip (isSkipFirstRow ? 1 : 0)
+								 .collect (Collectors.toList ());
+			}
+	 }
 }
