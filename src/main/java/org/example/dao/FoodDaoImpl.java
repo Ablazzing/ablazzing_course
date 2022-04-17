@@ -10,11 +10,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class FoodDaoImpl implements FoodDao{
-    private static String filePath = "C:\\Users\\79090\\IdeaProjects\\FreeCourse\\3\\ablazzing_course\\src\\main\\resources\\food.csv";
+public class FoodDaoImpl implements FoodDao {
+    private static String filePath = "C:\\Users\\Voodo\\Desktop\\GitLocalRepository\\ablazzing_course\\src\\main\\resources\\food.csv";
     private static final String DELIMITER = ",";
     private static final String HEADER_FILE = "id,name";
-    private CsvWorkerUtil  csvWorkerUtil;
+    private CsvWorkerUtil csvWorkerUtil;
     private Long currentId;
 
     public FoodDaoImpl() throws IllegalFileExtensionException, IOException {
@@ -24,10 +24,18 @@ public class FoodDaoImpl implements FoodDao{
 
     public static void main(String[] args) throws IllegalFileExtensionException, IOException {
         FoodDaoImpl foodDao = new FoodDaoImpl();
+        FoodEntity food = new FoodEntity(1L, "banana");
+//        foodDao.create(food);
+//        foodDao.update(food);
+//        foodDao.deleteById();
+//        foodDao.deleteByName();
+//        foodDao.findAll();
+//        foodDao.findById(2l);
+//        foodDao.initCurrentId();
 
-        System.out.println(foodDao.findById(2l));
 
     }
+
     private Long initCurrentId() throws IllegalFileExtensionException, IOException {
         List<String> textFromCsvFile = csvWorkerUtil.getTextFromCsvFile(true);
         List<Long> idList = textFromCsvFile.stream()
@@ -35,12 +43,10 @@ public class FoodDaoImpl implements FoodDao{
                 .map(e -> e.getId())
                 .sorted()
                 .collect(Collectors.toList());
-        if (idList.isEmpty()){
+        if (idList.isEmpty()) {
             return 1L;
         }
         return idList.get(idList.size() - 1) + 1;
-
-
     }
 
     @Override
@@ -51,6 +57,7 @@ public class FoodDaoImpl implements FoodDao{
                 .collect(Collectors.toList());
         csvWorkerUtil.writeCsvFile(true, foodEntityRows);
         this.currentId++;
+        System.out.println("Продукт создан");
     }
 
     @Override
@@ -64,6 +71,7 @@ public class FoodDaoImpl implements FoodDao{
         foodEntityRows.add(0, HEADER_FILE);
 
         csvWorkerUtil.writeCsvFile(false, foodEntityRows);
+        System.out.println("Продукт удалён по ID");
     }
 
     @Override
@@ -77,6 +85,7 @@ public class FoodDaoImpl implements FoodDao{
         foodEntityRows.add(0, HEADER_FILE);
 
         csvWorkerUtil.writeCsvFile(false, foodEntityRows);
+        System.out.println("Продукт удалён по имени");
     }
 
     @Override
@@ -90,6 +99,7 @@ public class FoodDaoImpl implements FoodDao{
 
         foodEntityRows.add(0, HEADER_FILE);
         csvWorkerUtil.writeCsvFile(false, foodEntityRows);
+        System.out.println("Продукт обновлён");
     }
 
     @Override
@@ -102,6 +112,7 @@ public class FoodDaoImpl implements FoodDao{
 
     @Override
     public FoodEntity findById(Long id) throws IllegalFileExtensionException, IOException {
+        System.out.println("Поиск по ID завершен: ");
         return csvWorkerUtil.getTextFromCsvFile(true)
                 .stream()
                 .map(e -> FoodEntityMapper.convertTextToEntity(e, DELIMITER))
@@ -111,12 +122,19 @@ public class FoodDaoImpl implements FoodDao{
     }
 
     @Override
-    public List<FoodEntity> findByName(String name) {
-        return null;
+    public List<FoodEntity> findByName(String name) throws IllegalFileExtensionException, IOException {
+        System.out.println("Поиск по имени завершен: ");
+        return csvWorkerUtil.getTextFromCsvFile(true)
+                .stream()
+                .map(e -> FoodEntityMapper.convertTextToEntity(e, DELIMITER))
+                .filter(e -> e.getName().equals(name))
+                .collect(Collectors.toList());
+
     }
 
     @Override
-    public void truncate() {
-
+    public String truncate() throws IllegalFileExtensionException, IOException {
+        csvWorkerUtil.writeCsvFile(false, Arrays.asList(HEADER_FILE));
+        return "Список продуктов очищен!";
     }
 }
