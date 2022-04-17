@@ -7,4 +7,8 @@ public class FoodEntityMapper {
         String[] array = row.split(delimiter);
         return new FoodEntity(Long.valueOf(array[0]), array[1]);
     }
+
+    public static String convertEntityToText(FoodEntity foodEntity, String delimiter){
+        return String.format("%d%s%s", foodEntity.getId(), delimiter, foodEntity.getName());
+    }
 }
