@@ -8,11 +8,11 @@ import java.util.List;
 
 public interface FoodDao {
     void create(FoodEntity foodEntity) throws IllegalFileExtensionException, IOException;
-    void deleteById(Long id);
-    void deleteByName(String name);
-    void update(FoodEntity foodEntity);
-    List<FoodEntity> findAll();
-    FoodEntity findById(Long id);
+    void deleteById(Long id) throws IllegalFileExtensionException, IOException;
+    void deleteByName(String name) throws IllegalFileExtensionException, IOException;
+    void update(FoodEntity foodEntity) throws IllegalFileExtensionException, IOException;
+    List<FoodEntity> findAll() throws IllegalFileExtensionException, IOException;
+    FoodEntity findById(Long id) throws IllegalFileExtensionException, IOException;
     List<FoodEntity> findByName(String name);
     void truncate();
 }

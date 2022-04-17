@@ -19,8 +19,16 @@ public class CsvWorkerUtil {
             throw new IllegalFileExtensionException("Неправильное расширение файла. Ожидается csv");
         }
         try (CsvBufferedWriter bw = new CsvBufferedWriter(new FileWriter(this.filePath, isAppend))) {
-            data.forEach(bw::writeWithNewLine);
-
+            if (isAppend){
+                data.forEach(bw::writeWithNewLine);
+            }else{
+                data.stream()
+                        .limit(1)
+                        .forEach(bw::write);
+                data.stream()
+                        .skip(1l)
+                        .forEach(bw::writeWithNewLine);
+            }
         }
     }
 
