@@ -11,8 +11,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class FoodDaoImpl implements FoodDao{
-    private static String filePath = "D:\\Новая папка\\ablazzing_course\\src\\main\\resources\\food.csv";
+    private static String filePath = "C:\\Users\\79090\\IdeaProjects\\FreeCourse\\3\\ablazzing_course\\src\\main\\resources\\food.csv";
     private static final String DELIMITER = ",";
+    private static final String HEADER_FILE = "id,name";
     private CsvWorkerUtil  csvWorkerUtil;
     private Long currentId;
 
@@ -23,12 +24,9 @@ public class FoodDaoImpl implements FoodDao{
 
     public static void main(String[] args) throws IllegalFileExtensionException, IOException {
         FoodDaoImpl foodDao = new FoodDaoImpl();
-        FoodEntity foodEntity = new FoodEntity("potato");
-        foodDao.create(foodEntity);
-        foodDao.create(foodEntity);
-        foodDao.create(foodEntity);
-        foodDao.create(foodEntity);
-        foodDao.create(foodEntity);
+
+        System.out.println(foodDao.findById(2l));
+
     }
     private Long initCurrentId() throws IllegalFileExtensionException, IOException {
         List<String> textFromCsvFile = csvWorkerUtil.getTextFromCsvFile(true);
@@ -56,28 +54,60 @@ public class FoodDaoImpl implements FoodDao{
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(Long id) throws IllegalFileExtensionException, IOException {
+        List<String> foodEntityRows = csvWorkerUtil.getTextFromCsvFile(true)
+                .stream()
+                .map(e -> FoodEntityMapper.convertTextToEntity(e, DELIMITER))
+                .filter(e -> e.getId() != id)
+                .map(e -> FoodEntityMapper.convertEntityToText(e, DELIMITER))
+                .collect(Collectors.toList());
+        foodEntityRows.add(0, HEADER_FILE);
 
+        csvWorkerUtil.writeCsvFile(false, foodEntityRows);
     }
 
     @Override
-    public void deleteByName(String name) {
+    public void deleteByName(String name) throws IllegalFileExtensionException, IOException {
+        List<String> foodEntityRows = csvWorkerUtil.getTextFromCsvFile(true)
+                .stream()
+                .map(e -> FoodEntityMapper.convertTextToEntity(e, DELIMITER))
+                .filter(e -> !e.getName().equals(name))
+                .map(e -> FoodEntityMapper.convertEntityToText(e, DELIMITER))
+                .collect(Collectors.toList());
+        foodEntityRows.add(0, HEADER_FILE);
 
+        csvWorkerUtil.writeCsvFile(false, foodEntityRows);
     }
 
     @Override
-    public void update(FoodEntity foodEntity) {
+    public void update(FoodEntity foodEntity) throws IllegalFileExtensionException, IOException {
+        List<String> foodEntityRows = csvWorkerUtil.getTextFromCsvFile(true)
+                .stream()
+                .map(e -> FoodEntityMapper.convertTextToEntity(e, DELIMITER))
+                .map(e -> e.getId().equals(foodEntity.getId()) ? foodEntity : e)
+                .map(e -> FoodEntityMapper.convertEntityToText(e, DELIMITER))
+                .collect(Collectors.toList());
 
+        foodEntityRows.add(0, HEADER_FILE);
+        csvWorkerUtil.writeCsvFile(false, foodEntityRows);
     }
 
     @Override
-    public List<FoodEntity> findAll() {
-        return null;
+    public List<FoodEntity> findAll() throws IllegalFileExtensionException, IOException {
+        return csvWorkerUtil.getTextFromCsvFile(true)
+                .stream()
+                .map(e -> FoodEntityMapper.convertTextToEntity(e, DELIMITER))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public FoodEntity findById(Long id) {
-        return null;
+    public FoodEntity findById(Long id) throws IllegalFileExtensionException, IOException {
+        return csvWorkerUtil.getTextFromCsvFile(true)
+                .stream()
+                .map(e -> FoodEntityMapper.convertTextToEntity(e, DELIMITER))
+                .filter(e -> e.getId().equals(id))
+                .findFirst()
+                .get();
     }
 
     @Override
