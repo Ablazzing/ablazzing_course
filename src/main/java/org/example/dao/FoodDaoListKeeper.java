@@ -45,10 +45,14 @@ public class FoodDaoListKeeper implements FoodDao {
 
     @Override
     public FoodEntity findById(Long id) {
-        return foodEntityKeeper.stream()
-                .filter(e -> e.getId().equals(id))
-                .findFirst()
-                .get();
+        FoodEntity temp = null;
+        if (foodEntityKeeper.stream().anyMatch(e -> e.getId().equals(id))){
+            temp =  foodEntityKeeper.stream()
+                    .filter(e -> e.getId().equals(id))
+                    .findFirst()
+                    .get();
+        }
+        return temp;
     }
 
     @Override

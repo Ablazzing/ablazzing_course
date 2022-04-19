@@ -16,12 +16,12 @@ public class Test {
         foodDaoListKeeper.create(new FoodEntity(4L, "apple"));
         foodDaoListKeeper.create(new FoodEntity(4L, "ape"));
 
-        System.out.println(foodDaoListKeeper.findById(4L));
+        System.out.println(foodDaoListKeeper.findById(9L));
         System.out.println(foodDaoListKeeper.findByName("ana"));
 
         foodDaoListKeeper.update(new FoodEntity(4L, "pineapple"));
-        foodDaoListKeeper.deleteById(2L);
-        foodDaoListKeeper.deleteByName("ana");
+        foodDaoListKeeper.deleteById(8L);
+        foodDaoListKeeper.deleteByName("anaweqwe");
         System.out.println(foodDaoListKeeper.findAll().toString());
         foodDaoListKeeper.truncate();
         System.out.println(foodDaoListKeeper.findAll().toString());
