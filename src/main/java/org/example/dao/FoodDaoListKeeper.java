@@ -30,7 +30,8 @@ public class FoodDaoListKeeper implements FoodDao {
 
     @Override
     public void update(FoodEntity foodEntity) {
-        if (foodEntityKeeper.contains(foodEntity)) {
+        if (foodEntityKeeper.stream()
+                .anyMatch(e -> e.getId().equals(foodEntity.getId()))) {
             foodEntityKeeper.removeIf(e -> e.getId().equals(foodEntity.getId()));
             foodEntityKeeper.add(foodEntity);
         }
