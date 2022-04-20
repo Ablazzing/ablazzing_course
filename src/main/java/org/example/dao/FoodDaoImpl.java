@@ -133,8 +133,8 @@ public class FoodDaoImpl implements FoodDao {
     }
 
     @Override
-    public String truncate() throws IllegalFileExtensionException, IOException {
+    public void truncate() throws IllegalFileExtensionException, IOException {
         csvWorkerUtil.writeCsvFile(false, Arrays.asList(HEADER_FILE));
-        return "Список продуктов очищен!";
+        System.out.println("Список продуктов очищен");
     }
 }

@@ -14,5 +14,5 @@ public interface FoodDao {
     List<FoodEntity> findAll() throws IllegalFileExtensionException, IOException;
     FoodEntity findById(Long id) throws IllegalFileExtensionException, IOException;
     List<FoodEntity> findByName(String name) throws IllegalFileExtensionException, IOException;
-    String truncate() throws IllegalFileExtensionException, IOException;
+    void truncate() throws IllegalFileExtensionException, IOException;
 }
