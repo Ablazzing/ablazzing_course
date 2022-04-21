@@ -11,8 +11,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class FoodDaoImpl implements FoodDao{
-    private static String filePath = "/home/vitaliy/Yurii_course/ablazzing_course/src/main/resources/food.csv";
+public class FoodDaoImpl implements FoodDao {
+    private static String filePath = "C:\\Users\\Voodo\\Desktop\\GitLocalRepository\\ablazzing_course\\src\\main\\resources\\food.csv";
     private static final String DELIMITER = ",";
     private static final String HEADER_FILE = "id,name";
     private Long currentId;
@@ -114,6 +114,7 @@ public class FoodDaoImpl implements FoodDao{
                 .map(e -> FoodEntityMapper.convertTextToEntity(e, DELIMITER))
                 .filter(e -> e.getName().equals(name))
                 .collect(Collectors.toList());
+
     }
 
     @Override
