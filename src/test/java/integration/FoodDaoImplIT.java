@@ -1,3 +1,5 @@
+package integration;
+
 import lombok.SneakyThrows;
 import org.example.csv_worker.CsvWorkerUtil;
 import org.example.dao.FoodDao;
@@ -5,14 +7,15 @@ import org.example.dao.FoodDaoImpl;
 import org.example.entity.FoodEntity;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class FoodDaoImplTest {
+public class FoodDaoImplIT {
     private FoodDao foodDao;
-    private static final String FILE_PATH = "/Users/ilyasaleskerov/Desktop/ablazzing_course/src/test/resources/food.csv";
+    private static final String FILE_PATH = "C:\\Users\\79090\\IdeaProjects\\FreeCourse\\3\\ablazzing_course\\src\\test\\resources\\food.csv";
     private List<String> initialData = Arrays.asList("id,name", "1,tomato");
 
     @SneakyThrows
