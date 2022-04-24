@@ -12,20 +12,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class FoodDaoImpl implements FoodDao{
-    private static String filePath = "/home/vitaliy/Yurii_course/ablazzing_course/src/main/resources/food.csv";
+    private String filePath;
     private static final String DELIMITER = ",";
     private static final String HEADER_FILE = "id,name";
     private Long currentId;
 
-    public FoodDaoImpl() throws IllegalFileExtensionException, IOException {
+    public FoodDaoImpl(String filePath) throws IllegalFileExtensionException, IOException {
+        this.filePath = filePath;
         this.currentId = initCurrentId();
     }
 
-    @SneakyThrows
-    public static void main(String[] args) {
-        FoodDaoImpl foodDao = new FoodDaoImpl();
-        foodDao.truncate();
-    }
     private Long initCurrentId() throws IllegalFileExtensionException, IOException {
         List<String> textFromCsvFile = CsvWorkerUtil.getTextFromCsvFile(true, filePath);
         List<Long> idList = textFromCsvFile.stream()
@@ -105,7 +101,7 @@ public class FoodDaoImpl implements FoodDao{
                 .map(e -> FoodEntityMapper.convertTextToEntity(e, DELIMITER))
                 .filter(e -> e.getId().equals(id))
                 .findFirst()
-                .get();
+                .orElse(null);
     }
 
     @Override
