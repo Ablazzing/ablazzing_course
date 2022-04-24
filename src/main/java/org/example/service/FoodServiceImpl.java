@@ -60,7 +60,11 @@ public class FoodServiceImpl implements FoodService {
 
     @Override
     public FoodEntity findById(Long id) throws DatabaseUnavailableException {
-        return null;
+        try {
+            return foodDao.findById(id);
+        } catch (IllegalFileExtensionException | IOException e) {
+            throw new DatabaseUnavailableException(e);
+        }
     }
 
     @Override
