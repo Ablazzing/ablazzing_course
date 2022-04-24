@@ -36,11 +36,9 @@ public class FoodDaoListImpl implements FoodDao {
     @Override
     public void update(FoodEntity foodEntity) throws IllegalFileExtensionException, IOException {
         if (foodEntity.getId() != null) {
-            for (FoodEntity f : foodList) {
-                if (f.getId().equals(foodEntity.getId())) {
-                    f.setName(foodEntity.getName());
-                }
-            }
+            foodList.stream()
+                    .filter(e -> e.getId().equals(foodEntity.getId()))
+                    .forEach(e -> e.setName(foodEntity.getName()));
         }
     }
 
@@ -51,12 +49,10 @@ public class FoodDaoListImpl implements FoodDao {
 
     @Override
     public FoodEntity findById(Long id) throws IllegalFileExtensionException, IOException {
-        for (FoodEntity f : foodList) {
-            if (f.getId().equals(id)) {
-                return f;
-            }
-        }
-        return null;
+        return foodList.stream()
+                .filter(e -> e.getId().equals(id))
+                .findFirst()
+                .orElse(null);
     }
 
     @Override
