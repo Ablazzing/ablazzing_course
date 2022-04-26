@@ -1,3 +1,5 @@
+package integration;
+
 import lombok.SneakyThrows;
 import org.example.csv_worker.CsvWorkerUtil;
 import org.example.dao.FoodDao;
@@ -10,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.List;
 
-public class FoodDaoImplTest {
+public class FoodDaoImplIT {
     private FoodDao foodDao;
     private static final String FILE_PATH = "C:\\Users\\kia\\IdeaProjects\\JavaProjectTutor\\src\\test\\resources\\food.csv";
     private List<String> initialData = Arrays.asList("id,name", "1,Babana", "2,Apple", "3,Meat");
