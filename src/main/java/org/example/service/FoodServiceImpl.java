@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 public class FoodServiceImpl implements FoodService {
-    FoodDao foodDao;
+    private FoodDao foodDao;
 
     public FoodServiceImpl(FoodDao foodDao) {
         this.foodDao = foodDao;
@@ -39,22 +39,43 @@ public class FoodServiceImpl implements FoodService {
 
     @Override
     public void deleteById(Long id) throws DatabaseUnavailableException {
-
+        try {
+            foodDao.deleteById(id);
+        } catch (IllegalFileExtensionException | IOException e) {
+            throw new DatabaseUnavailableException(e);
+        }
     }
 
     @Override
     public void deleteByName(String name) throws DatabaseUnavailableException {
-
+        try {
+            foodDao.deleteByName(name);
+        } catch (IllegalFileExtensionException | IOException e) {
+            throw new DatabaseUnavailableException(e);
+        }
     }
 
     @Override
     public void update(FoodDto foodDto) throws DatabaseUnavailableException {
+        FoodEntity food = FoodEntity.builder()
+                .id(Long.valueOf(foodDto.getProductId()))
+                .name(foodDto.getProductName())
+                .build();
 
+        try {
+            foodDao.update(food);
+        } catch (IllegalFileExtensionException | IOException e) {
+            throw new DatabaseUnavailableException(e);
+        }
     }
 
     @Override
     public List<FoodEntity> findAll() throws DatabaseUnavailableException {
-        return null;
+        try {
+            return foodDao.findAll();
+        } catch (IllegalFileExtensionException | IOException e) {
+            throw new DatabaseUnavailableException(e);
+        }
     }
 
     @Override
@@ -68,11 +89,19 @@ public class FoodServiceImpl implements FoodService {
 
     @Override
     public List<FoodEntity> findByName(String name) throws DatabaseUnavailableException {
-        return null;
+        try {
+            return foodDao.findByName(name);
+        } catch (IllegalFileExtensionException | IOException e) {
+            throw new DatabaseUnavailableException(e);
+        }
     }
 
     @Override
     public void clearDatabase() throws DatabaseUnavailableException {
-
+        try {
+            foodDao.truncate();
+        } catch (IllegalFileExtensionException | IOException e) {
+            throw new DatabaseUnavailableException(e);
+        }
     }
 }
