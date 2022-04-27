@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class FoodServiceIT {
-    static final String FILE_PATH = "C:\\Users\\79090\\IdeaProjects\\FreeCourse\\3\\ablazzing_course\\src\\test\\resources\\food.csv";
+    static final String FILE_PATH = "/home/vitaliy/Yurii_course/ablazzing_course/src/test/resources/food.csv";
 
     @Test
     @SneakyThrows

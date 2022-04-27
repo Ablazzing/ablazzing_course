@@ -15,7 +15,7 @@ import java.util.List;
 
 public class FoodDaoImplIT {
     private FoodDao foodDao;
-    private static final String FILE_PATH = "C:\\Users\\79090\\IdeaProjects\\FreeCourse\\3\\ablazzing_course\\src\\test\\resources\\food.csv";
+    private static final String FILE_PATH = "/home/vitaliy/Yurii_course/ablazzing_course/src/test/resources/food.csv";
     private List<String> initialData = Arrays.asList("id,name", "1,tomato");
 
     @SneakyThrows
