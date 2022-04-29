@@ -22,4 +22,6 @@ public interface FoodDao {
     List<FoodEntity> findByName(String name) throws IllegalFileExtensionException, IOException;
 
     void truncate() throws IllegalFileExtensionException, IOException;
+
+    void saveList(List<FoodEntity> foodList) throws IllegalFileExtensionException, IOException;
 }

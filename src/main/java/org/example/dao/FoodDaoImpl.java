@@ -5,8 +5,10 @@ import org.example.csv_worker.CsvWorkerUtil;
 import org.example.csv_worker.IllegalFileExtensionException;
 import org.example.entity.FoodEntity;
 import org.example.mapper.FoodEntityMapper;
+import org.example.service.FoodServiceImpl;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -112,5 +114,14 @@ public class FoodDaoImpl implements FoodDao {
     @Override
     public void truncate() throws IllegalFileExtensionException, IOException {
         CsvWorkerUtil.writeCsvFile(false, Arrays.asList(HEADER_FILE), filePath);
+    }
+
+    @Override
+    public void saveList(List<FoodEntity> foodList) throws IllegalFileExtensionException, IOException {
+        List<String> rows = new ArrayList<>(List.of(HEADER_FILE));
+        foodList.stream()
+                .map(e -> FoodEntityMapper.convertEntityToText(e, DELIMITER))
+                .forEach(rows::add);
+        CsvWorkerUtil.writeCsvFile(false, rows, filePath);
     }
 }

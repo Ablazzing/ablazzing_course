@@ -68,6 +68,11 @@ public class FoodDaoListImpl implements FoodDao {
     }
 
     @Override
+    public void saveList(List<FoodEntity> foodList) throws IllegalFileExtensionException, IOException {
+
+    }
+
+    @Override
     public String toString() {
         return "FoodDaoListImpl{" +
                 "foodList=" + foodList +

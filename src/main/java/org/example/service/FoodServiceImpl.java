@@ -7,8 +7,8 @@ import org.example.entity.FoodEntity;
 import org.example.mapper.FoodDtoMapper;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class FoodServiceImpl implements FoodService {
     private FoodDao foodDao;
@@ -29,12 +29,35 @@ public class FoodServiceImpl implements FoodService {
 
     @Override
     public void removeDuplicates() throws DatabaseUnavailableException {
+        try {
+            Set<String> duplicates = new HashSet<>();
+            List<FoodEntity> uniqueEntities = foodDao.findAll().stream()
+                    .filter(e -> {
+                        if (duplicates.contains(e.getName())) {
+                            return false;
+                        } else {
+                            duplicates.add(e.getName());
+                            return true;
+                        }
+                    })
+                    .collect(Collectors.toList());
 
+            foodDao.saveList(uniqueEntities);
+        } catch (IllegalFileExtensionException | IOException e) {
+            throw new DatabaseUnavailableException(e);
+        }
     }
 
     @Override
-    public Map<String, Integer> findDuplicates() throws DatabaseUnavailableException {
-        return null;
+    public Set<String> findDuplicates() throws DatabaseUnavailableException {
+        try {
+            Map<String, Integer> nameCounts = new HashMap<>();
+            foodDao.findAll().forEach(e -> nameCounts.put(e.getName(), nameCounts.getOrDefault(e.getName(), 0) + 1));
+
+            return nameCounts.entrySet().stream().filter(e -> e.getValue() > 1).map(Map.Entry::getKey).collect(Collectors.toSet());
+        } catch (IllegalFileExtensionException | IOException e) {
+            throw new DatabaseUnavailableException(e);
+        }
     }
 
     @Override
@@ -57,11 +80,7 @@ public class FoodServiceImpl implements FoodService {
 
     @Override
     public void update(FoodDto foodDto) throws DatabaseUnavailableException {
-        FoodEntity food = FoodEntity.builder()
-                .id(Long.valueOf(foodDto.getProductId()))
-                .name(foodDto.getProductName())
-                .build();
-
+        FoodEntity food = FoodDtoMapper.convertFoodDtoToFoodEntity(foodDto);
         try {
             foodDao.update(food);
         } catch (IllegalFileExtensionException | IOException e) {

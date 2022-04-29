@@ -4,12 +4,12 @@ import org.example.dto.FoodDto;
 import org.example.entity.FoodEntity;
 
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 public interface FoodService {
     void removeDuplicates() throws DatabaseUnavailableException;
 
-    Map<String, Integer> findDuplicates() throws DatabaseUnavailableException;
+    Set<String> findDuplicates() throws DatabaseUnavailableException;
 
     void create(FoodDto foodDto) throws DatabaseUnavailableException;
 

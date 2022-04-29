@@ -24,4 +24,9 @@ public class FoodServiceIT {
 
         Assertions.assertEquals(expectedFood, actual);
     }
+
+    @Test
+    public void checkCreate() {
+
+    }
 }
