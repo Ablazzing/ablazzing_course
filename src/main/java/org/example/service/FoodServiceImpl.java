@@ -5,15 +5,19 @@ import org.example.dao.FoodDao;
 import org.example.dto.FoodDto;
 import org.example.entity.FoodEntity;
 import org.example.mapper.FoodDtoMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+@Service
 public class FoodServiceImpl implements FoodService {
 
     FoodDao foodDao;
 
+    @Autowired
     public FoodServiceImpl(FoodDao foodDao) {
         this.foodDao = foodDao;
     }
