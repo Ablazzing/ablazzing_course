@@ -15,7 +15,7 @@ public class FoodServiceIT {
     @Test
     public void checkFindById() {
         Long inputId = 1L;
-        FoodDao foodDao = new FoodDaoImpl(FILE_PATH);
+        FoodDao foodDao = new FoodDaoImpl();
         FoodServiceImpl foodService = new FoodServiceImpl(foodDao);
 
         FoodEntity expectedFood = new FoodEntity(1L, "Babana");

@@ -20,7 +20,7 @@ public class FoodDaoImplIT {
     @SneakyThrows
     @BeforeEach
     public void initFoodDao() {
-        this.foodDao = new FoodDaoImpl(FILE_PATH);
+        this.foodDao = new FoodDaoImpl();
         CsvWorkerUtil.writeCsvFile(false, initialData, FILE_PATH);
     }
 
