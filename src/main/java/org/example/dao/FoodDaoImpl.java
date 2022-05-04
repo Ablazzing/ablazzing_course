@@ -8,6 +8,7 @@ import org.example.mapper.FoodEntityMapper;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -116,5 +117,15 @@ public class FoodDaoImpl implements FoodDao{
     @Override
     public void truncate() throws IllegalFileExtensionException, IOException {
         CsvWorkerUtil.writeCsvFile(false, Arrays.asList(HEADER_FILE), filePath);
+    }
+
+    @Override
+    public void saveListEntities(List<FoodEntity> foodEntities) throws IllegalFileExtensionException, IOException {
+        List<String> rows = new ArrayList<>();
+        rows.add(HEADER_FILE);
+        foodEntities.stream()
+                .map(e -> FoodEntityMapper.convertEntityToText(e, DELIMITER))
+                .forEach(e -> rows.add(e));
+        CsvWorkerUtil.writeCsvFile(false, rows, filePath);
     }
 }
