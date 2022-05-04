@@ -12,13 +12,13 @@ public interface FoodService {
 
     Set<String> findAllDuplicates() throws DatabaseUnavailableException;
 
-    void create(FoodDto foodDto) throws DatabaseUnavailableException;
+    FoodEntity create(FoodDto foodDto) throws DatabaseUnavailableException, IncorrectDtoValueException;
 
     void deleteById(Long id) throws DatabaseUnavailableException;
 
     void deleteByName(String name) throws DatabaseUnavailableException;
 
-    void update(FoodDto foodDto) throws DatabaseUnavailableException;
+    void update(FoodDto foodDto) throws DatabaseUnavailableException, IncorrectDtoValueException;
 
     List<FoodEntity> findAll() throws DatabaseUnavailableException;
 

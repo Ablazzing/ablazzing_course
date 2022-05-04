@@ -3,14 +3,13 @@ package integration;
 import lombok.SneakyThrows;
 import org.example.dao.FoodDao;
 import org.example.dao.FoodDaoImpl;
-import org.example.dto.FoodDto;
 import org.example.entity.FoodEntity;
 import org.example.service.FoodServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class FoodServiceIT {
-    static final String FILE_PATH = "C:\\codingSinko\\ablazzing_course_spring\\src\\test\\resources\\food.csv";
+    static final String FILE_PATH = "/home/vitaliy/Yurii_course/ablazzing_course/src/main/resources/food.csv";
 
     @Test
     @SneakyThrows

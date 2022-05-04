@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.List;
 
 public interface FoodDao {
-    void create(FoodEntity foodEntity) throws IllegalFileExtensionException, IOException;
+    FoodEntity create(FoodEntity foodEntity) throws IllegalFileExtensionException, IOException;
     void deleteById(Long id) throws IllegalFileExtensionException, IOException;
     void deleteByName(String name) throws IllegalFileExtensionException, IOException;
     void update(FoodEntity foodEntity) throws IllegalFileExtensionException, IOException;
