@@ -15,13 +15,13 @@ import java.util.List;
 
 public class FoodDaoImplIT {
     private FoodDao foodDao;
-    private static final String FILE_PATH = "/home/vitaliy/Yurii_course/ablazzing_course/src/test/resources/food.csv";
+    private static final String FILE_PATH = "C:\\codingSinko\\ablazzing_course_spring\\src\\test\\resources\\food.csv";
     private List<String> initialData = Arrays.asList("id,name", "1,tomato");
 
     @SneakyThrows
     @BeforeEach
     public void initFoodDao() {
-        this.foodDao = new FoodDaoImpl(FILE_PATH);
+        this.foodDao = new FoodDaoImpl();
         CsvWorkerUtil.writeCsvFile(false, initialData, FILE_PATH);
     }
 

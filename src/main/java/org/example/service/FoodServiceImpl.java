@@ -7,11 +7,14 @@ import org.example.dao.FoodDaoImpl;
 import org.example.dto.FoodDto;
 import org.example.entity.FoodEntity;
 import org.example.mapper.FoodDtoMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Service
 public class FoodServiceImpl implements FoodService {
 
     @SneakyThrows
@@ -23,6 +26,7 @@ public class FoodServiceImpl implements FoodService {
 
     FoodDao foodDao;
 
+    @Autowired
     public FoodServiceImpl(FoodDao foodDao) {
         this.foodDao = foodDao;
     }

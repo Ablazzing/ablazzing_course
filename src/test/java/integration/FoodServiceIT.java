@@ -10,14 +10,14 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class FoodServiceIT {
-    static final String FILE_PATH = "/home/vitaliy/Yurii_course/ablazzing_course/src/test/resources/food.csv";
+    static final String FILE_PATH = "C:\\codingSinko\\ablazzing_course_spring\\src\\test\\resources\\food.csv";
 
     @Test
     @SneakyThrows
     public void checkFindById() {
         System.out.println(".checkFindById запустился");
         Long inputId = 1l;
-        FoodDao foodDao = new FoodDaoImpl(FILE_PATH);
+        FoodDao foodDao = new FoodDaoImpl();
         FoodServiceImpl foodService = new FoodServiceImpl(foodDao);
 
         FoodEntity expectedFoodEntity = new FoodEntity(1l, "tomato");
