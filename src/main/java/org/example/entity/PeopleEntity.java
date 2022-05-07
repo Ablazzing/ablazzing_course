@@ -10,10 +10,15 @@ import lombok.extern.jackson.Jacksonized;
 @AllArgsConstructor
 @Builder
 @Jacksonized
-public class FoodEntity {
+public class PeopleEntity {
 
     private Long id;
 
     @NonNull
     private String name;
+
+    private Integer age;
+
+    private FoodEntity food;
 }
+

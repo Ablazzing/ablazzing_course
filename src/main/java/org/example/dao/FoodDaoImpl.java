@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class FoodDaoImpl implements FoodDao{
-    private static String filePath = "/home/vitaliy/Yurii_course/ablazzing_course/src/main/resources/food.csv";
+    private static String filePath = "C:\\Java_Projects\\ablazzing_course\\src\\main\\resources\\food.csv";
     private static final String DELIMITER = ",";
     private static final String HEADER_FILE = "id,name";
     private Long currentId;
@@ -35,8 +35,6 @@ public class FoodDaoImpl implements FoodDao{
             return 1L;
         }
         return idList.get(idList.size() - 1) + 1;
-
-
     }
 
     @Override
