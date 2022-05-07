@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class FoodDaoImpl implements FoodDao{
-    private static String filePath = "C:\\codingSinko\\ablazzing_course_spring\\src\\main\\resources\\food.csv";
+    private static String filePath = "/home/vitaliy/Yurii_course/ablazzing_course/src/main/resources/food.csv";
     private static final String DELIMITER = ",";
     private static final String HEADER_FILE = "id,name";
     private Long currentId;
@@ -40,13 +40,14 @@ public class FoodDaoImpl implements FoodDao{
     }
 
     @Override
-    public void create(FoodEntity foodEntity) throws IllegalFileExtensionException, IOException {
+    public FoodEntity create(FoodEntity foodEntity) throws IllegalFileExtensionException, IOException {
         foodEntity.setId(this.currentId);
         List<String> foodEntityRows = Arrays.asList(foodEntity).stream()
                 .map(e -> FoodEntityMapper.convertEntityToText(e, DELIMITER))
                 .collect(Collectors.toList());
         CsvWorkerUtil.writeCsvFile(true, foodEntityRows, filePath);
         this.currentId++;
+        return foodEntity;
     }
 
     @Override

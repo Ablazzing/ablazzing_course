@@ -1,9 +1,7 @@
 package org.example.service;
 
-import lombok.SneakyThrows;
 import org.example.csv_worker.IllegalFileExtensionException;
 import org.example.dao.FoodDao;
-import org.example.dao.FoodDaoImpl;
 import org.example.dto.FoodDto;
 import org.example.entity.FoodEntity;
 import org.example.mapper.FoodDtoMapper;
@@ -16,15 +14,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class FoodServiceImpl implements FoodService {
-
-    @SneakyThrows
-    public static void main(String[] args) {
-        FoodDao foodDao = new FoodDaoImpl("/home/vitaliy/Yurii_course/ablazzing_course/src/main/resources/food.csv");
-        FoodService foodService = new FoodServiceImpl(foodDao);
-        foodService.removeAllDuplicates();
-    }
-
-    FoodDao foodDao;
+    private FoodDao foodDao;
 
     @Autowired
     public FoodServiceImpl(FoodDao foodDao) {
@@ -32,10 +22,10 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
-    public void create(FoodDto foodDto) throws DatabaseUnavailableException {
+    public FoodEntity create(FoodDto foodDto) throws DatabaseUnavailableException, IncorrectDtoValueException {
         try {
             FoodEntity foodEntity = FoodDtoMapper.convertFoodDtoToEntity(foodDto);
-            foodDao.create(foodEntity);
+            return foodDao.create(foodEntity);
         } catch (IllegalFileExtensionException | IOException e) {
             throw new DatabaseUnavailableException(e);
         }
@@ -95,9 +85,12 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
-    public void update(FoodDto foodDto) throws DatabaseUnavailableException {
+    public void update(FoodDto foodDto) throws DatabaseUnavailableException, IncorrectDtoValueException {
         try {
             FoodEntity foodEntity = FoodDtoMapper.convertFoodDtoToEntity(foodDto);
+            if(foodEntity.getId() == 0L) {
+                throw new IncorrectDtoValueException("Food id is null or 0");
+            }
             foodDao.update(foodEntity);
         } catch (IllegalFileExtensionException | IOException e) {
             throw new DatabaseUnavailableException(e);
