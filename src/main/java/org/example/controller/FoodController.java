@@ -1,6 +1,5 @@
 package org.example.controller;
 
-import com.fasterxml.jackson.databind.ser.Serializers;
 import org.example.dto.FoodDto;
 import org.example.entity.FoodEntity;
 import org.example.service.DatabaseUnavailableException;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @RestController
 public class FoodController implements Controller {
@@ -19,24 +19,59 @@ public class FoodController implements Controller {
     FoodService foodService;
 
     @Autowired
-    public FoodController(FoodService foodService){
+    public FoodController(FoodService foodService) {
         this.foodService = foodService;
     }
 
-    @GetMapping("test")
-    public String test(){
-        return "welcome";
+    @PostMapping("food/remove_all_duplicates")
+    public BaseResponse removeAllDuplicates() {
+        try {
+            this.foodService.removeAllDuplicates();
+            return createSuccessfulResponse("All duplicates are removed", null);
+        } catch (DatabaseUnavailableException e) {
+            return createFailureResponse(e);
+        }
     }
 
-    @GetMapping("food/{id}")
-    public FoodEntity getFoodByService(@PathVariable Long id) throws DatabaseUnavailableException {
-        return this.foodService.findById(id);
+    @PostMapping("food/clear")
+    public BaseResponse clearFoodDatabase() {
+        try {
+            this.foodService.clearDatabase();
+            return createSuccessfulResponse("Database is cleared", null);
+        } catch (DatabaseUnavailableException e) {
+            return createFailureResponse(e);
+        }
     }
 
-    @GetMapping("food")
+    @GetMapping("food/find_all_duplicates")
+    public BaseResponse findAllDuplicates() {
+        try {
+            Set<String> data = this.foodService.findAllDuplicates();
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("duplicates", data);
+            return createSuccessfulResponse("OK", map);
+        } catch (DatabaseUnavailableException e) {
+            return createFailureResponse(e);
+        }
+    }
+
+    @GetMapping("api/food/{id}")
+    public BaseResponse getFoodByService(@PathVariable Long id) throws DatabaseUnavailableException {
+        try {
+            FoodEntity data = this.foodService.findById(id);;
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("food_entity", data);
+            return createSuccessfulResponse("OK", map);
+        } catch (DatabaseUnavailableException e) {
+            return createFailureResponse(e);
+        }
+
+    }
+
+    @GetMapping("api/food")
     public BaseResponse getAllFood() {
         try {
-            List<FoodEntity> entities =  this.foodService.findAll();
+            List<FoodEntity> entities = this.foodService.findAll();
             Map<String, Object> data = new HashMap<>();
             data.put("foodList", entities);
             return createSuccessfulResponse("OK", data);
@@ -45,7 +80,7 @@ public class FoodController implements Controller {
         }
     }
 
-    @PostMapping("food")
+    @PostMapping("api/food")
     public BaseResponse createFood(@RequestBody FoodDto foodDto) {
         try {
             FoodEntity createdFood = this.foodService.create(foodDto);
@@ -57,7 +92,7 @@ public class FoodController implements Controller {
         }
     }
 
-    @PatchMapping("food")
+    @PatchMapping("api/food")
     public BaseResponse updateFood(@RequestBody FoodDto foodDto) {
         try {
             this.foodService.update(foodDto);
@@ -67,7 +102,7 @@ public class FoodController implements Controller {
         }
     }
 
-    @DeleteMapping("food/{id}")
+    @DeleteMapping("api/food/{id}")
     public BaseResponse deleteFood(@PathVariable Long id) {
         try {
             this.foodService.deleteById(id);

@@ -1,7 +1,9 @@
 package org.example.service;
 
+import lombok.SneakyThrows;
 import org.example.csv_worker.IllegalFileExtensionException;
 import org.example.dao.FoodDao;
+import org.example.dao.FoodDaoImpl;
 import org.example.dto.FoodDto;
 import org.example.entity.FoodEntity;
 import org.example.mapper.FoodDtoMapper;
@@ -14,7 +16,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class FoodServiceImpl implements FoodService {
-    private FoodDao foodDao;
+
+    FoodDao foodDao;
 
     @Autowired
     public FoodServiceImpl(FoodDao foodDao) {
@@ -88,9 +91,6 @@ public class FoodServiceImpl implements FoodService {
     public void update(FoodDto foodDto) throws DatabaseUnavailableException, IncorrectDtoValueException {
         try {
             FoodEntity foodEntity = FoodDtoMapper.convertFoodDtoToEntity(foodDto);
-            if(foodEntity.getId() == 0L) {
-                throw new IncorrectDtoValueException("Food id is null or 0");
-            }
             foodDao.update(foodEntity);
         } catch (IllegalFileExtensionException | IOException e) {
             throw new DatabaseUnavailableException(e);
