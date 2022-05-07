@@ -22,10 +22,10 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
-    public void create(FoodDto foodDto) throws DatabaseUnavailableException {
+    public FoodEntity create(FoodDto foodDto) throws DatabaseUnavailableException, IncorrectDtoValueException {
         try {
             FoodEntity foodEntity = FoodDtoMapper.convertFoodDtoToFoodEntity(foodDto);
-            foodDao.create(foodEntity);
+            return foodDao.create(foodEntity);
         } catch (IllegalFileExtensionException | IOException e) {
             throw new DatabaseUnavailableException(e);
         }
@@ -83,8 +83,11 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
-    public void update(FoodDto foodDto) throws DatabaseUnavailableException {
+    public void update(FoodDto foodDto) throws DatabaseUnavailableException, IncorrectDtoValueException {
         FoodEntity food = FoodDtoMapper.convertFoodDtoToFoodEntity(foodDto);
+        if (food.getId() == 0L) {
+            throw new IncorrectDtoValueException("Food id is null or 0");
+        }
         try {
             foodDao.update(food);
         } catch (IllegalFileExtensionException | IOException e) {

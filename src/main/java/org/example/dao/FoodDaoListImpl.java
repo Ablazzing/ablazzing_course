@@ -13,10 +13,11 @@ public class FoodDaoListImpl implements FoodDao {
     private long currentId = 1L;
 
     @Override
-    public void create(FoodEntity foodEntity) throws IllegalFileExtensionException, IOException {
+    public FoodEntity create(FoodEntity foodEntity) throws IllegalFileExtensionException, IOException {
         foodEntity.setId(currentId);
         foodList.add(foodEntity);
         currentId++;
+        return foodEntity;
     }
 
     @Override

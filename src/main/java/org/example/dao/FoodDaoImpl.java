@@ -38,13 +38,14 @@ public class FoodDaoImpl implements FoodDao {
     }
 
     @Override
-    public void create(FoodEntity foodEntity) throws IllegalFileExtensionException, IOException {
+    public FoodEntity create(FoodEntity foodEntity) throws IllegalFileExtensionException, IOException {
         foodEntity.setId(this.currentId);
         List<String> foodEntityRows = Arrays.asList(foodEntity).stream()
                 .map(e -> FoodEntityMapper.convertEntityToText(e, DELIMITER))
                 .collect(Collectors.toList());
         CsvWorkerUtil.writeCsvFile(true, foodEntityRows, filePath);
         this.currentId++;
+        return foodEntity;
     }
 
     @Override
