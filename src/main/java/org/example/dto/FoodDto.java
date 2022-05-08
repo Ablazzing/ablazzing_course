@@ -7,7 +7,9 @@ import lombok.Value;
 public class FoodDto {
 
     Integer productId;
+
     @JsonProperty("product_name")
     String productName;
+
     Integer session;
 }
