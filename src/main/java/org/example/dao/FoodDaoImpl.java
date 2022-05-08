@@ -1,10 +1,10 @@
 package org.example.dao;
 
-import lombok.SneakyThrows;
 import org.example.csv_worker.CsvWorkerUtil;
 import org.example.csv_worker.IllegalFileExtensionException;
 import org.example.entity.FoodEntity;
 import org.example.mapper.FoodEntityMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -15,12 +15,13 @@ import java.util.stream.Collectors;
 
 @Component
 public class FoodDaoImpl implements FoodDao{
-    private static String filePath = "C:\\Java_Projects\\ablazzing_course\\src\\main\\resources\\food.csv";
+    private String filePath;
     private static final String DELIMITER = ",";
     private static final String HEADER_FILE = "id,name";
     private Long currentId;
 
-    public FoodDaoImpl() throws IllegalFileExtensionException, IOException {
+    public FoodDaoImpl(@Value("${food_file}") String path) throws IllegalFileExtensionException, IOException {
+        this.filePath = path;
         this.currentId = initCurrentId();
     }
 
