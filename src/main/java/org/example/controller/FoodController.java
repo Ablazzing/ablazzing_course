@@ -1,6 +1,5 @@
 package org.example.controller;
 
-import com.sun.jdi.event.StepEvent;
 import org.example.dto.FoodDto;
 import org.example.entity.FoodEntity;
 import org.example.service.DatabaseUnavailableException;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @RestController
 public class FoodController implements Controller {
@@ -22,7 +22,29 @@ public class FoodController implements Controller {
         this.foodService = foodService;
     }
 
-    @GetMapping("food/{id}")
+    @PostMapping("food/remove_all_duplicates")
+    public BaseResponse removeAllDuplicates() {
+        try {
+            foodService.removeDuplicates();
+            return createSuccessfulResponse("All duplicates was removed", null);
+        } catch (DatabaseUnavailableException e) {
+            return createFailureResponse(e);
+        }
+    }
+
+    @GetMapping("food/find_duplicates")
+    public BaseResponse findAllDuplicates() {
+        try {
+            Set<String> data = foodService.findDuplicates();
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("duplicates", data);
+            return createSuccessfulResponse("All duplicates was find", map);
+        } catch (DatabaseUnavailableException e) {
+            return createFailureResponse(e);
+        }
+    }
+
+    @GetMapping("api/food/{id}")
     public BaseResponse getFoodById(@PathVariable Long id) {
         try {
             FoodEntity foodEntity = foodService.findById(id);
@@ -34,7 +56,7 @@ public class FoodController implements Controller {
         }
     }
 
-    @GetMapping("food")
+    @GetMapping("api/food")
     public BaseResponse getAllFood() {
         try {
             List<FoodEntity> foodEntities = foodService.findAll();
@@ -46,7 +68,7 @@ public class FoodController implements Controller {
         }
     }
 
-    @PostMapping("food")
+    @PostMapping("api/food")
     public BaseResponse createFood(@RequestBody FoodDto foodDto) {
         try {
             FoodEntity foodEntity = foodService.create(foodDto);
@@ -58,7 +80,7 @@ public class FoodController implements Controller {
         }
     }
 
-    @PatchMapping("food")
+    @PatchMapping("api/food")
     public BaseResponse updateFood(@RequestBody FoodDto foodDto) {
         try {
             this.foodService.update(foodDto);
@@ -68,11 +90,21 @@ public class FoodController implements Controller {
         }
     }
 
-    @DeleteMapping("food/{id}")
+    @DeleteMapping("api/food/{id}")
     public BaseResponse deleteFoodByName(@PathVariable Long id) {
         try {
             foodService.deleteById(id);
             return createSuccessfulResponse("Delete is OK", null);
+        } catch (DatabaseUnavailableException e) {
+            return createFailureResponse(e);
+        }
+    }
+
+    @PostMapping("food/clear")
+    public BaseResponse clearDatabase() {
+        try {
+            foodService.clearDatabase();
+            return createSuccessfulResponse("Data was deleted", null);
         } catch (DatabaseUnavailableException e) {
             return createFailureResponse(e);
         }
