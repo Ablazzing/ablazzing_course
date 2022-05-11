@@ -11,7 +11,7 @@ import java.util.Set;
 public interface PeopleService {
     void removeAllDuplicates() throws DatabaseUnavailableException;
 
-    Set<String> findAllDuplicates() throws DatabaseUnavailableException, IllegalFileExtensionException, IOException;
+    Set<String> findAllDuplicates() throws DatabaseUnavailableException;
 
     PeopleEntity create(PeopleDto peopleDto) throws DatabaseUnavailableException, IncorrectDtoValueException;
 

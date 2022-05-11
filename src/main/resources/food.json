@@ -3,3 +3,18 @@
   "product_name": "banana",
   "session": 2313123
 }
+
+
+{
+  "statusCode": 200,
+  "error": null,
+  "message": "ОК",
+  "data": {
+    "foods": [
+      {
+        "id": 1,
+        "name": "tomato"
+      }
+    ]
+  }
+}
