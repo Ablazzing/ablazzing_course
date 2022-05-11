@@ -4,6 +4,9 @@ import org.example.service.DatabaseUnavailableException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @SpringBootApplication
 //@ComponentScan("org.example")
 public class Runner {
@@ -12,6 +15,7 @@ public class Runner {
 //        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(Runner.class);
 //        PeopleServiceImpl peopleService = context.getBean(PeopleServiceImpl.class);
 //        peopleService.removeAllDuplicates();
-
     }
 }
+
+

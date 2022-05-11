@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import com.fasterxml.jackson.databind.ser.Serializers;
 import org.example.dto.FoodDto;
 import org.example.entity.FoodEntity;
 import org.example.service.DatabaseUnavailableException;
@@ -69,12 +70,31 @@ public class FoodController implements Controller {
     }
 
     @GetMapping("api/food")
-    public BaseResponse getAllFood() {
+    public BaseResponse getFood(@RequestParam (required = false) String name) {
+        if(name != null && !name.isEmpty()) {
+            return getFoodByName(name);
+        } else {
+            return getAllFood();
+        }
+    }
+
+    private BaseResponse getAllFood() {
         try {
             List<FoodEntity> entities = this.foodService.findAll();
             Map<String, Object> data = new HashMap<>();
             data.put("foodList", entities);
             return createSuccessfulResponse("OK", data);
+        } catch (DatabaseUnavailableException e) {
+            return createFailureResponse(e);
+        }
+    }
+
+    private BaseResponse getFoodByName(String name) {
+        try {
+            List<FoodEntity> foundFoods = this.foodService.findByName(name);
+            Map<String, Object> data = new HashMap<>();
+            data.put("foods", foundFoods);
+            return createSuccessfulResponse("ОК", data);
         } catch (DatabaseUnavailableException e) {
             return createFailureResponse(e);
         }
@@ -103,9 +123,19 @@ public class FoodController implements Controller {
     }
 
     @DeleteMapping("api/food/{id}")
-    public BaseResponse deleteFood(@PathVariable Long id) {
+    public BaseResponse deleteFoodById(@PathVariable Long id) {
         try {
             this.foodService.deleteById(id);
+            return createSuccessfulResponse("Delete is successful", null);
+        } catch (DatabaseUnavailableException e) {
+            return createFailureResponse(e);
+        }
+    }
+
+    @DeleteMapping("api/food")
+    public BaseResponse deleteFoodByName(@RequestParam String name) {
+        try {
+            this.foodService.deleteByName(name);
             return createSuccessfulResponse("Delete is successful", null);
         } catch (DatabaseUnavailableException e) {
             return createFailureResponse(e);
