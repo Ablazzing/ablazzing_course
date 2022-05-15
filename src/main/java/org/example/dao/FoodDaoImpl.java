@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class FoodDaoImpl implements FoodDao {
+public class FoodDaoImpl implements FoodService {
     private String filePath;
     private static final String DELIMITER = ",";
     private static final String HEADER_FILE = "id,name";

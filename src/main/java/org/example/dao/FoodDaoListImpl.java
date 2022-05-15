@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class FoodDaoListImpl implements FoodDao {
+public class FoodDaoListImpl implements FoodService {
     private List<FoodEntity> foodList = new ArrayList<>();
     private long currentId = 1L;
 

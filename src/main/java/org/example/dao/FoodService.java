@@ -6,7 +6,7 @@ import org.example.entity.FoodEntity;
 import java.io.IOException;
 import java.util.List;
 
-public interface FoodDao {
+public interface FoodService {
     FoodEntity create(FoodEntity foodEntity) throws IllegalFileExtensionException, IOException;
 
     void deleteById(Long id) throws IllegalFileExtensionException, IOException;

@@ -1,7 +1,7 @@
 package org.example.mapper;
 
 import org.example.csv_worker.IllegalFileExtensionException;
-import org.example.dao.FoodDao;
+import org.example.dao.FoodService;
 import org.example.entity.FoodEntity;
 import org.example.entity.PeopleEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +15,10 @@ import java.util.stream.Collectors;
 
 @Component
 public class PeopleEntityMapper {
-    private FoodDao foodDao;
+    private FoodService foodDao;
 
     @Autowired
-    public PeopleEntityMapper(FoodDao foodDao) {
+    public PeopleEntityMapper(FoodService foodDao) {
         this.foodDao = foodDao;
     }
 

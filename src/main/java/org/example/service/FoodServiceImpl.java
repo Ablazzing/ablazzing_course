@@ -1,7 +1,7 @@
 package org.example.service;
 
 import org.example.csv_worker.IllegalFileExtensionException;
-import org.example.dao.FoodDao;
+import org.example.dao.FoodService;
 import org.example.dto.FoodDto;
 import org.example.entity.FoodEntity;
 import org.example.mapper.FoodDtoMapper;
@@ -13,11 +13,11 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class FoodServiceImpl implements FoodService {
-    private FoodDao foodDao;
+public class FoodServiceImpl implements org.example.service.FoodService {
+    private FoodService foodDao;
 
     @Autowired
-    public FoodServiceImpl(FoodDao foodDao) {
+    public FoodServiceImpl(FoodService foodDao) {
         this.foodDao = foodDao;
     }
 

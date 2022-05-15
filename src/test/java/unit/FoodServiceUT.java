@@ -1,7 +1,7 @@
 package unit;
 
 import lombok.SneakyThrows;
-import org.example.dao.FoodDao;
+import org.example.dao.FoodService;
 import org.example.entity.FoodEntity;
 import org.example.service.FoodServiceImpl;
 import org.junit.jupiter.api.Assertions;
@@ -15,7 +15,7 @@ public class FoodServiceUT {
     public void checkFindById() {
         Long inputId = 1L;
 
-        FoodDao foodDao = Mockito.mock(FoodDao.class);
+        FoodService foodDao = Mockito.mock(FoodService.class);
         Mockito.when(foodDao.findById(inputId)).thenReturn(new FoodEntity(1L, "Babana"));
         FoodServiceImpl foodService = new FoodServiceImpl(foodDao);
 

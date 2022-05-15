@@ -32,6 +32,16 @@ public class FoodController implements Controller {
         }
     }
 
+    @PostMapping("food/clear")
+    public BaseResponse clearDatabase() {
+        try {
+            foodService.clearDatabase();
+            return createSuccessfulResponse("Data was deleted", null);
+        } catch (DatabaseUnavailableException e) {
+            return createFailureResponse(e);
+        }
+    }
+
     @GetMapping("food/find_duplicates")
     public BaseResponse findAllDuplicates() {
         try {
@@ -51,18 +61,6 @@ public class FoodController implements Controller {
             Map<String, Object> data = new HashMap<>();
             data.put("foodEntity", foodEntity);
             return createSuccessfulResponse(null, data);
-        } catch (DatabaseUnavailableException e) {
-            return createFailureResponse(e);
-        }
-    }
-
-    @GetMapping("api/food")
-    public BaseResponse getAllFood() {
-        try {
-            List<FoodEntity> foodEntities = foodService.findAll();
-            Map<String, Object> data = new HashMap<>();
-            data.put("foodList", foodEntities);
-            return createSuccessfulResponse("OK", data);
         } catch (DatabaseUnavailableException e) {
             return createFailureResponse(e);
         }
@@ -91,7 +89,7 @@ public class FoodController implements Controller {
     }
 
     @DeleteMapping("api/food/{id}")
-    public BaseResponse deleteFoodByName(@PathVariable Long id) {
+    public BaseResponse deleteFoodById(@PathVariable Long id) {
         try {
             foodService.deleteById(id);
             return createSuccessfulResponse("Delete is OK", null);
@@ -100,11 +98,42 @@ public class FoodController implements Controller {
         }
     }
 
-    @PostMapping("food/clear")
-    public BaseResponse clearDatabase() {
+    @DeleteMapping("api/food")
+    public BaseResponse deleteFoodByName(@RequestParam String name) {
         try {
-            foodService.clearDatabase();
-            return createSuccessfulResponse("Data was deleted", null);
+            foodService.deleteByName(name);
+            return createSuccessfulResponse("Delete is OK", null);
+        } catch (DatabaseUnavailableException e) {
+            return createFailureResponse(e);
+        }
+    }
+
+    @GetMapping("api/food")
+    public BaseResponse getFood(@RequestParam(required = false) String name) {
+        if (name != null && !name.isEmpty()) {
+            return getFoodByName(name);
+        } else {
+            return getAllFood();
+        }
+    }
+
+    private BaseResponse getAllFood() {
+        try {
+            List<FoodEntity> foodEntities = foodService.findAll();
+            Map<String, Object> data = new HashMap<>();
+            data.put("foodList", foodEntities);
+            return createSuccessfulResponse("OK", data);
+        } catch (DatabaseUnavailableException e) {
+            return createFailureResponse(e);
+        }
+    }
+
+    private BaseResponse getFoodByName(String name) {
+        try {
+            List<FoodEntity> foods = this.foodService.findByName(name);
+            Map<String, Object> data = new HashMap<>();
+            data.put("foods", foods);
+            return createSuccessfulResponse("OK", data);
         } catch (DatabaseUnavailableException e) {
             return createFailureResponse(e);
         }
